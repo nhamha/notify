@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <History>True|2023-04-21T19:30:10.6563267Z;True|2023-04-22T02:18:08.7387016+07:00;True|2023-04-22T01:35:59.3832087+07:00;True|2023-04-21T22:36:38.0175608+07:00;False|2023-04-21T22:36:15.0222390+07:00;False|2023-04-21T22:35:59.5494635+07:00;</History>
+    <LastFailureDetails />
+    <_PublishTargetUrl>E:\OldSolution\PortalProject\NetCore.PortalAPI2\NetCore.PortalAPI\ServerCore.PortalAPI\bin\Release\netcoreapp2.2\PortalVN</_PublishTargetUrl>
+  </PropertyGroup>
+</Project>

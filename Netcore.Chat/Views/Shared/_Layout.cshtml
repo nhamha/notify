@@ -1,0 +1,41 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+    <link href="~/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/css/Site.css" rel="stylesheet" />
+    <link href="~/css/sb-admin.css" rel="stylesheet" />
+    <link href="~/css/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <link href="~/css/bootstrapValidator.css" rel="stylesheet" />
+
+    <script>
+        var UrlRoot = '@Configuration.GetSection("AppSettings")["UrlRoot"]';
+    </script>
+    <environment include="Development">
+        <script src="~/js/jquery-1.10.2.js"></script>
+        <script src="~/js/modernizr-2.6.2.js"></script>
+        <script src="~/js/jquery.pager.js"></script>
+
+        <script src="~/js/bootstrap.min.js"></script>
+        <script src="~/js/bootbox.min.js"></script>
+        <script src="~/js/moment.js"></script>
+        <script src="~/js/bootstrap-datetimepicker.js"></script>
+        <script src="~/js/bootstrapValidator.js"></script>
+        <script src="~/js/sb-admin.js"></script>
+        <script src="~/js/jquery.metisMenu.js"></script>
+    </environment>
+
+</head>
+<body>
+    <div>
+        <partial name="../Home/Header.cshtml">
+            @RenderBody()
+    </div>
+</body>
+</html>

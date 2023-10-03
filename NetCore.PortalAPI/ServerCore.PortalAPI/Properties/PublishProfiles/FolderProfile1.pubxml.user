@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>F:\CexseaPortalAPI\NetCore.PortalAPI\ServerCore.PortalAPI\bin\Release\netcoreapp2.2\publish\</_PublishTargetUrl>
+    <History>True|2023-08-09T10:03:19.2003531Z;True|2023-05-31T11:31:23.6918733+07:00;True|2023-05-30T10:43:16.0564644+07:00;True|2023-05-30T09:46:58.3366862+07:00;False|2023-05-30T09:46:39.9183001+07:00;False|2023-04-21T22:35:32.6348137+07:00;True|2023-04-21T22:14:06.6207481+07:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>

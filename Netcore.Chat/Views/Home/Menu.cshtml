@@ -1,0 +1,37 @@
+﻿
+<ul class="nav navbar-nav">
+    <li class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" data-hover="dropdown" data-animations="zoomIn fadeInLeft fadeInUp fadeInRight" data-toggle="dropdown" type="button" style="padding: 5px 10px;margin: 10px 10px 0 0;" aria-expanded="true">
+            <i class="fa fa-fw mid_1"></i>  Quản lý người dùng<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdownhover-bottom" role="menu">
+            <li>
+                <a href=""><i class="fa fa-fw mid_2"></i>Danh sách người dùng</a>
+            </li>
+        </ul>
+
+    </li>
+
+    <li class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" data-hover="dropdown" data-animations="zoomIn fadeInLeft fadeInUp fadeInRight" data-toggle="dropdown" type="button" style="padding: 5px 10px;margin: 10px 10px 0 0;" aria-expanded="true">
+            <i class="fa fa-fw mid_1"></i>  Quản lý chat<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdownhover-bottom" role="menu">
+            <li>
+                <a href=""><i class="fa fa-fw mid_2"></i>Cấu hình chat</a>
+            </li>
+        </ul>
+
+    </li>
+</ul>
+
+<script>
+    $(document).ready(function () {
+        var widthScreen = $(window).width();
+        if (widthScreen <= 767) {
+            $(".navbar-nav .dropdown-menu a").click(function () {
+                $("#navbar").collapse("hide");
+            });
+        }
+    });
+</script>

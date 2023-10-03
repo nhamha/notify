@@ -1,0 +1,327 @@
+﻿body {
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+/*input,
+select,
+textarea {
+    max-width: 280px;
+}*/
+
+/* styles for validation helpers */
+.field-validation-error {
+    color: #b94a48;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    color: #b94a48;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+
+/* Bổ sung thêm */
+.pagination li a.active, .pagination li a:hover, .pagination li:hover{
+    background: #1c6af5;
+    color: #fff;
+}
+a.link-grant, a.link-grant > fa {
+color: #ffffff;
+padding: 5px 7px;
+background-color: #0094ff;
+}
+a.link-edit, a.link-edit > fa {
+color: #ffffff;
+padding: 5px 6px 5px 5px;
+background-color: #ffac29;
+}
+a.link-delete {
+padding: 5px 7px;
+color: #fff;
+background-color: #ca3a28;
+}
+
+#txtIconSrc, #txtCoverImg, #SrcImgLeft, #SrcImgRight{float:left;margin:0}
+a.link-delete:hover, a.link-hover > fa:hover,a.link-edit:hover, a.link-edit > fa:hover,a.link-grant:hover, a.link-grant > fa:hover  {
+    color : #ffffff !important;
+}
+#dataTables > thead > th, #dataTables > tbody > tr {
+    text-align:center;
+}
+#dataTables > tbody > tr > td.functionName {
+    text-align : left;
+}
+#dataTables tr th{text-align : center;}
+.display-hide{
+    display : none;
+}
+.nopadding {
+    padding : 0 !important;
+}
+a.panel_collapse{
+    clear : both;
+    display : inherit;
+    padding : 0;
+}
+.panel-title a.panel_collapse:after {
+    font-family:'Glyphicons Halflings';
+    content:"\e114";
+    float: right;
+    color: #fff;
+}
+#FunctionPartial .panel-heading{
+    position:relative;
+}
+#FunctionPartial .panel-title .link-edit{
+    position:absolute;
+        top: 3px;
+    right: 80px;
+}
+#FunctionPartial .panel-title .link-delete{
+        position: absolute;
+    top: 3px;
+    right: 45px;
+}
+.panel-heading a.collapsed:after {
+    content:"\e080";
+}
+.panel-footer .submit{text-align:center}
+#datetimeFromDate .form-control, #datetimeToDate .form-control{
+    display: table-cell;
+    float: left;
+width: 100%;
+margin-bottom: 0;
+border-bottom-right-radius:0;
+border-top-right-radius:0;
+}
+#datetimeFromDate ,#datetimeToDate {
+    position: relative;
+    display: table;
+    border-collapse: separate;
+}
+#datetimeFromDate .form-control-feedback, #datetimeToDate .form-control-feedback{
+    right:20% !important;
+}
+#ErrorlogPartial table#dataTables{
+    table-layout: auto;
+}
+a.link-success {
+color: #ffffff;
+padding: 5px 7px;
+background-color: #00C24C;
+}
+#form label{white-space : nowrap;    float: left;
+    margin: 5px 0 5px 10px;color: #31708f;}
+#wrapper .top {
+  height: 4px;
+  margin: 0;
+  background-color: #0188d7;
+}
+.navbar-header{
+    padding: 7px 18px;
+}
+#cbxIsActive, #cbxIsDisplay{margin:0}
+.submit{text-align:center}
+#FunctionPartial .panel-heading{background-color: #1C6373;color:#fff}
+.text-info{
+    float: left; margin: 5px 0 0 10px; width:80px
+}
+.dropdown-menu i.fa{
+    margin-right:5px;
+}
+a.ReportNRU{cursor:pointer}
+#page-wrapper{width:100%}
+.well{    padding: 5px 0 5px 10px;
+    text-align: left;}
+
+#dataTables td{white-space:normal}
+
+.visible-ie9 {
+    display: none;
+}
+.visible-ie8 {
+    display: none;
+}
+.login .content .input-icon {
+    border-left: 2px solid #35aa47 !important;
+}
+.input-icon {
+    position: relative;
+        width: 70%;
+    /*margin-left: 25px;*/
+}
+.input-icon > i {
+    color: #ccc;
+    display: block;
+    position: absolute;
+    margin: 11px 2px 4px 10px;
+    z-index: 3;
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+    text-align: center;
+}
+.login .content .input-icon .form-control {
+    border-left: 0;
+}
+.input-icon > .form-control {
+    padding-left: 33px;
+}
+.login .content {
+    background-color: #fff;
+    width: 420px;
+    margin: 0 auto;
+    margin-bottom: 0px;
+    padding: 0;
+    text-align:center;
+    padding-top: 20px;
+    padding-bottom: 15px;
+}
+button.btn-sm{
+    border-radius: 0;
+    border-width: 0;
+    padding: 7px 14px;
+    font-size: 14px;
+
+}
+.btn-sm.btn-success{
+        background: #35aa47;
+    color: #fff;
+}
+.input-icon .form-control-feedback{
+    top:-10px !important;
+}
+.login .logo {
+    margin: 0 auto;
+    text-align: center;
+}
+li.dropdown-user .dropdown-toggle > img {
+    float: left;
+    margin-top: -5px;
+    margin-right: 5px;
+    height: 29px;
+    display: inline-block;
+}
+.navbar-right li.dropdown-user .dropdown-toggle .username {
+    color: #446CCC;
+}
+.navbar-right li.dropdown-user .dropdown-toggle > .username {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 600;
+}
+.navbar-right  li.dropdown {
+    margin: 0px;
+    padding: 0px 4px;
+    height: 46px;
+    display: inline-block;
+}
+.navbar-right li.dropdown-user .dropdown-toggle {
+    padding: 14px 6px 12px 8px;
+}
+.img-circle {
+    border-radius: 50% !important;
+}
+.navbar-right .dropdown-menu {
+    top: 40px;
+}
+.modal.in .modal-dialog{
+    z-index:9999;
+}
+
+.navbar-nav > li > .dropdown-menu, .open>.dropdown-menu{padding:0}
+.dropdown-menu>li>a{padding:5px 20px 5px 5px;}
+
+
+.divControlSearch label{width:100px; font:bold 14px/30px Arial; float:left;}
+.divControlSearch p{width:100%; float:left}
+.divControlSearch span.fl{ float:left;}
+.divControlSearch span.dn{width:50%; float:left}
+.divControlSearch p input.text{width:50%; max-width:200px; height:35px; padding:3px; border-radius:5px; -webkit-border-radius:5px; -moz-border-radius:5px; border:1px solid #d3d3d3;}
+.divControlSearch p input.textBig{width:80%; max-width:400px; height:35px; padding:3px; border-radius:5px; -webkit-border-radius:5px; -moz-border-radius:5px; border:1px solid #d3d3d3;}
+.divControlSearch p select.text{width:200px; max-width:200px; height:35px; padding:3px; border-radius:5px; -webkit-border-radius:5px; -moz-border-radius:5px; border:1px solid #d3d3d3;}
+.divContentFeedback{padding:10px; width:95%; border:1px solid #d3d3d3; border-radius:5px; -webkit-border-radius:5px; -moz-border-radius:5px; display:inline-block; overflow-y:hidden; overflow-x:auto; height:250px}
+
+
+.wrAlert{position:fixed; top:100px; left:50%;z-index:99}
+.wrAlert .contentAlert {left:-50%; position:relative;max-width:300px; max-height:200px; background:#ed9c28; color:#fff;  text-align:center; padding:20px; border-radius:10px;-webkit-border-radius:10px;-moz-border-radius:10px; display:inline-block }
+.wrAlert .contentAlert .title{width:100%; text-align:center; text-transform:uppercase; font:bold 16px Arial; margin-bottom:20px; border-bottom:1px solid #fff; padding-bottom:10px;}
+.wrAlert .contentAlert .content{font:normal 15px/20px Arial;} 
+
+/*Message*/
+.tab-pane {width:100%; float:left;}
+#FunctionPartial{border:1px solid #d3d3d3; margin-top:-1px; padding:10px;display: inline-block;    width: 100%;}
+.inlineblock{display:inline-block}
+.wrlistAdmin,.wrKeywordBlock,.wrSpamblock,.dChongame,.dTaiKhoan,.dBlock,.timeBlock,.dLydo,.dButton{width:100%; /*float:left;*/ margin-bottom:15px;}
+
+.dTaiKhoan .listuserOl,.dBlock .listBlockUser,#colinfo .listhistory{width:96%; padding:2%; border:1px solid #d3d3d3; overflow-x:hidden; overflow-y:auto; height:150px;}
+.wrlistAdmin .listAdmin .bgtable .bglistItem .item,.wrKeywordBlock .keyBlacklist .bgtable .bglistItem .item,.wrKeywordBlock .reasonBlock .bgtable .bglistItem .item,.dTaiKhoan .listuserOl .item,.dBlock .listBlockUser .item,#colinfo .listhistory .item,.wrKeywordBlock .keyReplace .bgtable .bglistItem .item{padding:2px 5px; border-bottom:1px dotted #d3d3d3; cursor:pointer;}
+.wrlistAdmin .listAdmin .bgtable .bglistItem .item:hover,.wrKeywordBlock .keyBlacklist .bgtable .bglistItem .item:hover,.wrKeywordBlock .reasonBlock .bgtable .bglistItem .item:hover,.dTaiKhoan .listuserOl .item:hover,.dBlock .listBlockUser .item:hover,#colinfo .listhistory .item:hover,.wrKeywordBlock .keyReplace .bgtable .bglistItem .item:hover{background:#d3d3d3; color:#1c6af5;}
+.searchBlock{width:100%; float:left; margin-top:10px;}
+.searchBlock .form-control{float:left;}
+.searchBlock #btSearchBlock{float:left; margin-left:10px; border-radius:5px; -webkit-border-radius:5px; -moz-border-radius:5px; border:1px solid #d3d3d3; padding:6px 20px;}
+
+fieldset#colinfo,.wrSpamblock fieldset ,.wrKeywordBlock fieldset,.wrlistAdmin fieldset {
+    padding: 0.35em 0.625em 0.75em;
+    margin: 0 0 10px 0;
+    border: 1px solid #c0c0c0;
+}
+.wrlistAdmin fieldset legend,fieldset#colinfo legend,.wrSpamblock fieldset legend,.wrKeywordBlock fieldset legend{
+        margin-bottom: 0;
+    border-bottom: 0;
+    text-transform: uppercase;
+    padding-left: 20px;
+    color: blue;
+}
+fieldset#colinfo .line{width:100%; float:left; border-bottom:1px solid #d3d3d3; margin: 5px 0; }
+
+.dButton .btn-warning{margin-top:10px;}
+
+/*tAB 2*/
+.wrSpamblock fieldset .item {margin: 30px; display:block}
+.wrSpamblock fieldset .item label{float:left; min-width:250px}
+.wrSpamblock fieldset .item .form-control{display:inline-block}
+.wrSpamblock fieldset .item span.sub{margin-right:100px}
+.wrlistAdmin .listAdmin,.wrKeywordBlock .keyBlacklist,.wrKeywordBlock .reasonBlock,.wrKeywordBlock .keyReplace{ margin:10px 0;display:inline-block}
+.wrlistAdmin .listAdmin .bgtable .divheader,.wrKeywordBlock .keyBlacklist .bgtable .divheader,.wrKeywordBlock .reasonBlock .bgtable .divheader,.wrKeywordBlock .keyReplace,.wrKeywordBlock .keyReplace .bgtable,.wrKeywordBlock .keyReplace .bgtable .divheader {width:100%; float:left;}
+.wrlistAdmin .listAdmin .bgtable,.wrKeywordBlock .keyBlacklist .bgtable,.wrKeywordBlock .reasonBlock .bgtable,.wrKeywordBlock .keyReplace .bgtable{border:1px solid #d3d3d3; margin-bottom:10px;}
+.wrlistAdmin .listAdmin .bgtable .divheader,.wrKeywordBlock .keyBlacklist .bgtable .divheader,.wrKeywordBlock .reasonBlock .bgtable .divheader,.wrKeywordBlock .keyReplace .bgtable .divheader {font:bold 15px Arial; text-align:center; padding:10px 0; border-bottom:1px solid #d3d3d3; }
+.wrlistAdmin .listAdmin .bgtable .bglistItem,.wrKeywordBlock .keyBlacklist .bgtable .bglistItem,.wrKeywordBlock .reasonBlock .bgtable .bglistItem,.wrKeywordBlock .keyReplace .bgtable .bglistItem{
+    width:100%;  border:1px solid #d3d3d3; overflow-x:hidden; overflow-y:auto; height:170px;
+}
+.wrlistAdmin .listAdmin .bgtable .bglistItem .item,.wrKeywordBlock .keyBlacklist .bgtable .bglistItem .item,.wrKeywordBlock .reasonBlock .bgtable .bglistItem .item,.wrKeywordBlock .keyReplace .bgtable .bglistItem .item{display:block;width:100%; float:left; text-align:center}
+.wrlistAdmin .listAdmin .bgtable .bglistItem .item .btn,.wrKeywordBlock .keyBlacklist .bgtable .bglistItem .item .btn,.wrKeywordBlock .reasonBlock .bgtable .bglistItem .item .btn,.wrKeywordBlock .keyReplace .bgtable .bglistItem .item .btn{margin: 5px;}
+
+
+/*Form AddkeyReplace*/
+.bgOpacity{width:100%; height:2000px; background:#000; top:0; left:0;position:fixed; z-index:90; opacity:0.5;}
+#formkeyReplace,#formkeyReplace3{
+    position:fixed; left:45%; top:100px; z-index:99;
+}
+#formkeyReplace #wrformkeyReplace,#formkeyReplace3 #wrformkeyReplace3{z-index:99;
+    position:relative; left:-45%; background:#fff; padding:20px;border:1px solid #ffac29; border-radius:5px; -webkit-border-radius:5px;-moz-border-radius:5px;width:400px;    display: inline-block;
+}
+
+#pageBlacklist span{background:#ff6a00; height:25px; width:25px; color:#fff; text-align:center; line-height:25px;border-radius:5px; -webkit-border-radius:5px; -moz-border-radius:5px; display:inline-block; cursor:pointer}
+#pageBlacklist span:hover,#pageBlacklist span.active{background:#0026ff}

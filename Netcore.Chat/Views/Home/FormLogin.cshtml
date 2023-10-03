@@ -1,0 +1,80 @@
+﻿
+<div id="wrapper">
+    <div id="LoginForm">
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <div class="logo">
+                            <a href="javascript:;">Hệ thống quản trị CMS</a>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h4 class="modal-title" id="myModalLabel"><i class="fa fa-fw fa-sign-out"></i>Đăng nhập vào hệ thống</h4>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="panel panel-default login" style="margin-top:0">
+
+                                        <div class="panel-body content">
+                                            <form class="form-horizontal" role="form" id="loginForm" method="post">
+
+                                                <div class="form-group col-md-push-1">
+                                                    <label class="control-label visible-ie8 visible-ie9">Username</label>
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-user"></i>
+                                                        <input class="form-control" id="Username" name="Username" placeholder="Username" required="" type="text" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-md-push-1">
+                                                    <label class="control-label visible-ie8 visible-ie9">Password</label>
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-lock"></i>
+                                                        <input class="form-control" id="Password" name="Password" placeholder="Password" required="" type="password" />
+                                                    </div>
+                                                </div>
+                                                @*<div class="form-group col-md-push-1">
+                                                        <div class="capcha" style="display:none;" id="captcha_err">
+                                                            <input class="capcha-input form-control" name="" id="txtCaptcha" type="text" placeholder="Mã xác nhận" style="text-transform: uppercase; width:150px;" maxlength="6">
+                                                            <div class="capcha-ph" style="float: left;">
+                                                                <img width="90" height="28" id="Imgcaptcha" />
+                                                                <img src="@System.Configuration.ConfigurationManager.AppSettings["URL_ROOT"]Content/images/refresh.png" width="30" onclick="AccountCtrl.refreshCaptcha();" style="cursor:pointer">
+                                                            </div>
+                                                            <input type="hidden" value="" id="txtVerify" />
+                                                        </div>
+                                                    </div>*@
+                                                <div class="form-group last">
+                                                    <div class="col-lg-12">
+                                                        <button type="submit" class="btn btn-success btn-sm" name="datasave" id="btnSave">Đăng nhập TK GAME <i class="fa fa-arrow-circle-right"></i></button>
+                                                        <button type="reset" class="btn btn-info btn-sm" id="btnReset"><i class="fa fa-refresh"></i>Làm mới</button>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    setTimeout(function () {
+        $("#myModal").modal({
+            show: true,
+            backdrop: 'static',
+            keyboard: false
+        });
+    }, 100);
+
+</script>

@@ -1,0 +1,22 @@
+﻿{
+  "0": "Success",
+  "1000": "System maintaining",
+  "1001": "System error",
+  "1002": "Account invalid",
+  "1003": "Password invalid",
+  "1004": "NickName invalid",
+  "1005": "Data is empty",
+  "1006": "Register fail",
+  "1007": "Account is exist",
+  "1008": "Nickname is exist",
+  "1009": "Platform invalid",
+  "1010": "Verify code invalid",
+  "1011": "Login fail",
+  "1012": "Account blocked",
+  "1013": "Account not exist",
+  "1014": "Enter OTP code to verify",
+  "1015": "Token invalid",
+  "1016": "Verify success",
+  "1017": "Account is disabled",
+  "1018": "Facebook account invalid"
+}

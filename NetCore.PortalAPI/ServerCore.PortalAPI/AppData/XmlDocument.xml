@@ -1,0 +1,997 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PortalAPI</name>
+    </assembly>
+    <members>
+        <member name="M:PortalAPI.Areas.HelpPage.ApiDescriptionExtensions.GetFriendlyId(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Generates an URI-friendly ID for the <see cref="T:System.Web.Http.Description.ApiDescription"/>. E.g. "Get-Values-id_name" instead of "GetValues/{id}?name={name}"
+            </summary>
+            <param name="description">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The ID as a string.</returns>
+        </member>
+        <member name="T:PortalAPI.Areas.HelpPage.HelpPageConfig">
+            <summary>
+            Use this class to customize the Help Page.
+            For example you can set a custom <see cref="T:System.Web.Http.Description.IDocumentationProvider"/> to supply the documentation
+            or you can provide the samples for the requests/responses.
+            </summary>
+        </member>
+        <member name="T:PortalAPI.Areas.HelpPage.Controllers.HelpController">
+            <summary>
+            The controller that will handle requests for the help page.
+            </summary>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageConfigurationExtensions.SetDocumentationProvider(System.Web.Http.HttpConfiguration,System.Web.Http.Description.IDocumentationProvider)">
+            <summary>
+            Sets the documentation provider for help page.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="documentationProvider">The documentation provider.</param>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleObjects(System.Web.Http.HttpConfiguration,System.Collections.Generic.IDictionary{System.Type,System.Object})">
+            <summary>
+            Sets the objects that will be used by the formatters to produce sample requests/responses.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sampleObjects">The sample objects.</param>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleRequest(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String)">
+            <summary>
+            Sets the sample request directly for the specified media type and action.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample request.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleRequest(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String,System.String[])">
+            <summary>
+            Sets the sample request directly for the specified media type and action with parameters.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample request.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleResponse(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String)">
+            <summary>
+            Sets the sample request directly for the specified media type of the action.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample response.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleResponse(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String,System.String[])">
+            <summary>
+            Sets the sample response directly for the specified media type of the action with specific parameters.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample response.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleForMediaType(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Sets the sample directly for all actions with the specified media type.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample.</param>
+            <param name="mediaType">The media type.</param>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleForType(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.Type)">
+            <summary>
+            Sets the sample directly for all actions with the specified type and media type.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="type">The parameter type or return type of an action.</param>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualRequestType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String)">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate request samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualRequestType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String,System.String[])">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate request samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualResponseType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String)">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> returned as part of the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate response samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualResponseType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String,System.String[])">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> returned as part of the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate response samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageConfigurationExtensions.GetHelpPageSampleGenerator(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Gets the help page sample generator.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <returns>The help page sample generator.</returns>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageConfigurationExtensions.SetHelpPageSampleGenerator(System.Web.Http.HttpConfiguration,PortalAPI.Areas.HelpPage.HelpPageSampleGenerator)">
+            <summary>
+            Sets the help page sample generator.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sampleGenerator">The help page sample generator.</param>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageConfigurationExtensions.GetModelDescriptionGenerator(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Gets the model description generator.
+            </summary>
+            <param name="config">The configuration.</param>
+            <returns>The <see cref="T:PortalAPI.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator"/></returns>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageConfigurationExtensions.GetHelpPageApiModel(System.Web.Http.HttpConfiguration,System.String)">
+            <summary>
+            Gets the model that represents an API displayed on the help page. The model is initialized on the first call and cached for subsequent calls.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="apiDescriptionId">The <see cref="T:System.Web.Http.Description.ApiDescription"/> ID.</param>
+            <returns>
+            An <see cref="T:PortalAPI.Areas.HelpPage.Models.HelpPageApiModel"/>
+            </returns>
+        </member>
+        <member name="T:PortalAPI.Areas.HelpPage.ModelDescriptions.ModelDescription">
+            <summary>
+            Describes a type model.
+            </summary>
+        </member>
+        <member name="T:PortalAPI.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator">
+            <summary>
+            Generates model descriptions for given types.
+            </summary>
+        </member>
+        <member name="T:PortalAPI.Areas.HelpPage.ModelDescriptions.ModelNameAttribute">
+            <summary>
+            Use this attribute to change the name of the <see cref="T:PortalAPI.Areas.HelpPage.ModelDescriptions.ModelDescription"/> generated for a type.
+            </summary>
+        </member>
+        <member name="T:PortalAPI.Areas.HelpPage.Models.HelpPageApiModel">
+            <summary>
+            The model that represents an API displayed on the help page.
+            </summary>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.Models.HelpPageApiModel.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:PortalAPI.Areas.HelpPage.Models.HelpPageApiModel"/> class.
+            </summary>
+        </member>
+        <member name="P:PortalAPI.Areas.HelpPage.Models.HelpPageApiModel.ApiDescription">
+            <summary>
+            Gets or sets the <see cref="P:PortalAPI.Areas.HelpPage.Models.HelpPageApiModel.ApiDescription"/> that describes the API.
+            </summary>
+        </member>
+        <member name="P:PortalAPI.Areas.HelpPage.Models.HelpPageApiModel.UriParameters">
+            <summary>
+            Gets or sets the <see cref="T:PortalAPI.Areas.HelpPage.ModelDescriptions.ParameterDescription"/> collection that describes the URI parameters for the API.
+            </summary>
+        </member>
+        <member name="P:PortalAPI.Areas.HelpPage.Models.HelpPageApiModel.RequestDocumentation">
+            <summary>
+            Gets or sets the documentation for the request.
+            </summary>
+        </member>
+        <member name="P:PortalAPI.Areas.HelpPage.Models.HelpPageApiModel.RequestModelDescription">
+            <summary>
+            Gets or sets the <see cref="T:PortalAPI.Areas.HelpPage.ModelDescriptions.ModelDescription"/> that describes the request body.
+            </summary>
+        </member>
+        <member name="P:PortalAPI.Areas.HelpPage.Models.HelpPageApiModel.RequestBodyParameters">
+            <summary>
+            Gets the request body parameter descriptions.
+            </summary>
+        </member>
+        <member name="P:PortalAPI.Areas.HelpPage.Models.HelpPageApiModel.ResourceDescription">
+            <summary>
+            Gets or sets the <see cref="T:PortalAPI.Areas.HelpPage.ModelDescriptions.ModelDescription"/> that describes the resource.
+            </summary>
+        </member>
+        <member name="P:PortalAPI.Areas.HelpPage.Models.HelpPageApiModel.ResourceProperties">
+            <summary>
+            Gets the resource property descriptions.
+            </summary>
+        </member>
+        <member name="P:PortalAPI.Areas.HelpPage.Models.HelpPageApiModel.SampleRequests">
+            <summary>
+            Gets the sample requests associated with the API.
+            </summary>
+        </member>
+        <member name="P:PortalAPI.Areas.HelpPage.Models.HelpPageApiModel.SampleResponses">
+            <summary>
+            Gets the sample responses associated with the API.
+            </summary>
+        </member>
+        <member name="P:PortalAPI.Areas.HelpPage.Models.HelpPageApiModel.ErrorMessages">
+            <summary>
+            Gets the error messages associated with this model.
+            </summary>
+        </member>
+        <member name="T:PortalAPI.Areas.HelpPage.HelpPageSampleGenerator">
+            <summary>
+            This class will generate the samples for the help page.
+            </summary>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageSampleGenerator.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:PortalAPI.Areas.HelpPage.HelpPageSampleGenerator"/> class.
+            </summary>
+        </member>
+        <member name="P:PortalAPI.Areas.HelpPage.HelpPageSampleGenerator.ActualHttpMessageTypes">
+            <summary>
+            Gets CLR types that are used as the content of <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/>.
+            </summary>
+        </member>
+        <member name="P:PortalAPI.Areas.HelpPage.HelpPageSampleGenerator.ActionSamples">
+            <summary>
+            Gets the objects that are used directly as samples for certain actions.
+            </summary>
+        </member>
+        <member name="P:PortalAPI.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects">
+            <summary>
+            Gets the objects that are serialized as samples by the supported formatters.
+            </summary>
+        </member>
+        <member name="P:PortalAPI.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories">
+            <summary>
+            Gets factories for the objects that the supported formatters will serialize as samples. Processed in order,
+            stopping when the factory successfully returns a non-<see langref="null"/> object.
+            </summary>
+            <remarks>
+            Collection includes just <see cref="M:PortalAPI.Areas.HelpPage.ObjectGenerator.GenerateObject(System.Type)"/> initially. Use
+            <code>SampleObjectFactories.Insert(0, func)</code> to provide an override and
+            <code>SampleObjectFactories.Add(func)</code> to provide a fallback.</remarks>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageSampleGenerator.GetSampleRequests(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Gets the request body samples for a given <see cref="T:System.Web.Http.Description.ApiDescription"/>.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageSampleGenerator.GetSampleResponses(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Gets the response body samples for a given <see cref="T:System.Web.Http.Description.ApiDescription"/>.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageSampleGenerator.GetSample(System.Web.Http.Description.ApiDescription,PortalAPI.Areas.HelpPage.SampleDirection)">
+            <summary>
+            Gets the request or response body samples.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or for a response.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageSampleGenerator.GetActionSample(System.String,System.String,System.Collections.Generic.IEnumerable{System.String},System.Type,System.Net.Http.Formatting.MediaTypeFormatter,System.Net.Http.Headers.MediaTypeHeaderValue,PortalAPI.Areas.HelpPage.SampleDirection)">
+            <summary>
+            Search for samples that are provided directly through <see cref="P:PortalAPI.Areas.HelpPage.HelpPageSampleGenerator.ActionSamples"/>.
+            </summary>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+            <param name="type">The CLR type.</param>
+            <param name="formatter">The formatter.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or for a response.</param>
+            <returns>The sample that matches the parameters.</returns>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageSampleGenerator.GetSampleObject(System.Type)">
+            <summary>
+            Gets the sample object that will be serialized by the formatters. 
+            First, it will look at the <see cref="P:PortalAPI.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects"/>. If no sample object is found, it will try to create
+            one using <see cref="M:PortalAPI.Areas.HelpPage.HelpPageSampleGenerator.DefaultSampleObjectFactory(PortalAPI.Areas.HelpPage.HelpPageSampleGenerator,System.Type)"/> (which wraps an <see cref="T:PortalAPI.Areas.HelpPage.ObjectGenerator"/>) and other
+            factories in <see cref="P:PortalAPI.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories"/>.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>The sample object.</returns>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageSampleGenerator.ResolveHttpRequestMessageType(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Resolves the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The type.</returns>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageSampleGenerator.ResolveType(System.Web.Http.Description.ApiDescription,System.String,System.String,System.Collections.Generic.IEnumerable{System.String},PortalAPI.Areas.HelpPage.SampleDirection,System.Collections.ObjectModel.Collection{System.Net.Http.Formatting.MediaTypeFormatter}@)">
+            <summary>
+            Resolves the type of the action parameter or return value when <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/> is used.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or a response.</param>
+            <param name="formatters">The formatters.</param>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageSampleGenerator.WriteSampleObjectUsingFormatter(System.Net.Http.Formatting.MediaTypeFormatter,System.Object,System.Type,System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Writes the sample object using formatter.
+            </summary>
+            <param name="formatter">The formatter.</param>
+            <param name="value">The value.</param>
+            <param name="type">The type.</param>
+            <param name="mediaType">Type of the media.</param>
+            <returns></returns>
+        </member>
+        <member name="T:PortalAPI.Areas.HelpPage.HelpPageSampleKey">
+            <summary>
+            This is used to identify the place where the sample should be applied.
+            </summary>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Creates a new <see cref="T:PortalAPI.Areas.HelpPage.HelpPageSampleKey"/> based on media type.
+            </summary>
+            <param name="mediaType">The media type.</param>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue,System.Type)">
+            <summary>
+            Creates a new <see cref="T:PortalAPI.Areas.HelpPage.HelpPageSampleKey"/> based on media type and CLR type.
+            </summary>
+            <param name="mediaType">The media type.</param>
+            <param name="type">The CLR type.</param>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageSampleKey.#ctor(PortalAPI.Areas.HelpPage.SampleDirection,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a new <see cref="T:PortalAPI.Areas.HelpPage.HelpPageSampleKey"/> based on <see cref="P:PortalAPI.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>, controller name, action name and parameter names.
+            </summary>
+            <param name="sampleDirection">The <see cref="P:PortalAPI.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue,PortalAPI.Areas.HelpPage.SampleDirection,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a new <see cref="T:PortalAPI.Areas.HelpPage.HelpPageSampleKey"/> based on media type, <see cref="P:PortalAPI.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>, controller name, action name and parameter names.
+            </summary>
+            <param name="mediaType">The media type.</param>
+            <param name="sampleDirection">The <see cref="P:PortalAPI.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="P:PortalAPI.Areas.HelpPage.HelpPageSampleKey.ControllerName">
+            <summary>
+            Gets the name of the controller.
+            </summary>
+            <value>
+            The name of the controller.
+            </value>
+        </member>
+        <member name="P:PortalAPI.Areas.HelpPage.HelpPageSampleKey.ActionName">
+            <summary>
+            Gets the name of the action.
+            </summary>
+            <value>
+            The name of the action.
+            </value>
+        </member>
+        <member name="P:PortalAPI.Areas.HelpPage.HelpPageSampleKey.MediaType">
+            <summary>
+            Gets the media type.
+            </summary>
+            <value>
+            The media type.
+            </value>
+        </member>
+        <member name="P:PortalAPI.Areas.HelpPage.HelpPageSampleKey.ParameterNames">
+            <summary>
+            Gets the parameter names.
+            </summary>
+        </member>
+        <member name="P:PortalAPI.Areas.HelpPage.HelpPageSampleKey.SampleDirection">
+            <summary>
+            Gets the <see cref="P:PortalAPI.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.
+            </summary>
+        </member>
+        <member name="T:PortalAPI.Areas.HelpPage.ImageSample">
+            <summary>
+            This represents an image sample on the help page. There's a display template named ImageSample associated with this class.
+            </summary>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.ImageSample.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PortalAPI.Areas.HelpPage.ImageSample"/> class.
+            </summary>
+            <param name="src">The URL of an image.</param>
+        </member>
+        <member name="T:PortalAPI.Areas.HelpPage.InvalidSample">
+            <summary>
+            This represents an invalid sample on the help page. There's a display template named InvalidSample associated with this class.
+            </summary>
+        </member>
+        <member name="T:PortalAPI.Areas.HelpPage.ObjectGenerator">
+            <summary>
+            This class will create an object of a given type and populate it with sample data.
+            </summary>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.ObjectGenerator.GenerateObject(System.Type)">
+            <summary>
+            Generates an object for a given type. The type needs to be public, have a public default constructor and settable public properties/fields. Currently it supports the following types:
+            Simple types: <see cref="T:System.Int32"/>, <see cref="T:System.String"/>, <see cref="T:System.Enum"/>, <see cref="T:System.DateTime"/>, <see cref="T:System.Uri"/>, etc.
+            Complex types: POCO types.
+            Nullables: <see cref="T:System.Nullable`1"/>.
+            Arrays: arrays of simple types or complex types.
+            Key value pairs: <see cref="T:System.Collections.Generic.KeyValuePair`2"/>
+            Tuples: <see cref="T:System.Tuple`1"/>, <see cref="T:System.Tuple`2"/>, etc
+            Dictionaries: <see cref="T:System.Collections.Generic.IDictionary`2"/> or anything deriving from <see cref="T:System.Collections.Generic.IDictionary`2"/>.
+            Collections: <see cref="T:System.Collections.Generic.IList`1"/>, <see cref="T:System.Collections.Generic.IEnumerable`1"/>, <see cref="T:System.Collections.Generic.ICollection`1"/>, <see cref="T:System.Collections.IList"/>, <see cref="T:System.Collections.IEnumerable"/>, <see cref="T:System.Collections.ICollection"/> or anything deriving from <see cref="T:System.Collections.Generic.ICollection`1"/> or <see cref="T:System.Collections.IList"/>.
+            Queryables: <see cref="T:System.Linq.IQueryable"/>, <see cref="T:System.Linq.IQueryable`1"/>.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>An object of the given type.</returns>
+        </member>
+        <member name="T:PortalAPI.Areas.HelpPage.SampleDirection">
+            <summary>
+            Indicates whether the sample is used for request or response
+            </summary>
+        </member>
+        <member name="T:PortalAPI.Areas.HelpPage.TextSample">
+            <summary>
+            This represents a preformatted text sample on the help page. There's a display template named TextSample associated with this class.
+            </summary>
+        </member>
+        <member name="T:PortalAPI.Areas.HelpPage.XmlDocumentationProvider">
+            <summary>
+            A custom <see cref="T:System.Web.Http.Description.IDocumentationProvider"/> that reads the API documentation from an XML documentation file.
+            </summary>
+        </member>
+        <member name="M:PortalAPI.Areas.HelpPage.XmlDocumentationProvider.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PortalAPI.Areas.HelpPage.XmlDocumentationProvider"/> class.
+            </summary>
+            <param name="documentPath">The physical path to XML document.</param>
+        </member>
+        <member name="M:PortalAPI.Controllers.AccountAPIController.UpdateSecurityInfo(System.Object)">
+            <summary>
+            Update thông tin tài khoản
+            </summary>
+            <param name="data">bỏ accountId</param>
+            <returns></returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.AccountAPIController.UpdateSecurityInfoReport(System.Object)">
+            <summary>
+            API cho Report
+            </summary>
+            <param name="data">bỏ accountid</param>
+            <returns></returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.AccountAPIController.ChangePassword(PortalAPI.Models.ChangePasswordData)">
+            <summary>
+            Đổi mật khẩu
+            </summary>
+            <param name="data">bỏ AccountID và Mobile</param>
+            <returns></returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.AccountAPIController.GiftCode(PortalAPI.Models.Giftcode)">
+            <summary>
+            bỏ AccountID, Mobile, AccountFullName
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.AccountAPIController.CheckAccountExists(System.Int32)">
+            <summary>bigmidu
+             Kiểm tra tài khoản tồn tại trên hệ thống chưa
+            </summary>
+            <param name="accountName"></param>
+            <returns>
+            returnData.ResponseCode>0 là có tồn tại
+            </returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.AccountAPIController.ResetPassword(PortalAPI.Controllers.ResetPassModels)">
+             <summary>
+             Đặt lại mật khẩu (quên mk)
+             </summary>
+             <param name="model">
+             model.Type: 1--> lấy qua SMS; 2--> lấy qua email
+            
+             </param>
+             <returns>
+             returnData.ResponseCode = -8004; // dữ liệu hợp lệ, trả về để client tiếp tục chuyển view nhập mã xác thực
+             returnData.ResponseCode>0 : thành công
+             </returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.AccountAPIController.UpdateUserFullName(System.String,System.String,System.String)">
+            <summary>
+            Note : bỏ accountName, accountId
+            </summary>
+            <param name="captcha"></param>
+            <param name="captchaToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.AccountAPIController.GetSecurityInfo">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.AccountAPIController.RegisterSecurity(PortalAPI.Controllers.RegisterSecurityModels)">
+            <summary>
+            Đăng ký OTP
+            </summary>
+            <param name="model"> model.Type: 1 = Đăng ký OTP; 2 = Hủy OTP; 3 = Hủy số; </param>
+            <returns></returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.AccountAPIController.ChangeMobileOTP(System.Object)">
+            <summary>
+            Thay đổi số điện thoại đăng ký OTP
+            </summary>
+            <param name="model">
+            bỏ accountID và accountName
+            </param>
+            <returns>
+            </returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.AccountAPIController.RegisterLoginOTP(System.Object)">
+            <summary>
+            Dang ky login co OTP
+            </summary>
+            <param name="model">
+            model.Type: 1--> Đăng ký login co OTP; 2--> Hủy login OTP
+            </param>
+            <returns>
+            Thanh cong tra ve thong tin bao mat cua nguoi choi
+            </returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:PortalAPI.Controllers.AccountAPIController.Frozen(System.Int64,System.Int32,System.Int32,System.String,System.Int32)" -->
+        <member name="M:PortalAPI.Controllers.AuthenicationAPIController.CheckOTPByAccountID(System.Object)">
+            <summary>
+            CheckOTP
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.AuthenicationAPIController.CheckOTPByAccountIDReport(System.Object)">
+            <summary>
+            CheckOTP
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.AuthenicationAPIController.CheckAuthenticated">
+            <summary>
+            Check authenticated
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.AuthenicationAPIController.GetAccountInfo">
+            <summary>
+            Khi GetAccountInfo thì lấy cả lại số dư vcoin
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.AuthenicationAPIController.GetAccountInfoWithVCoinBalance">
+            <summary>
+            GetAccountInfo with Vcoin Balance
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.AuthenicationAPIController.Logout">
+            <summary>
+            Logout
+            </summary>
+        </member>
+        <member name="M:PortalAPI.Controllers.CaptchaUtil.GetCaptcha(System.Int32,System.Int32,System.Int32,System.String)">
+            <summary>
+            Sinh mã captcha
+            </summary>
+            <returns>
+                string[]
+                [0]: verify
+                [1]: image data contain captcha text
+            </returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.CaptchaUtil.VerifyCaptcha(System.String,System.String)">
+            <summary>
+            Kiểm tra tính hợp lệ của Captcha
+            </summary>
+            <param name="captchaText"></param>
+            <param name="verify"></param>
+            <returns>
+             1: Captcha hợp lệ
+            -1: Captcha không chính xác
+            -2: Captcha hết hạn
+            
+            -99: Exception -> Captcha không hợp lệ
+            </returns>
+        </member>
+        <member name="T:PortalAPI.Controllers.CaptchaImage.FontWarpFactor">
+            <summary>
+            Amount of random font warping to apply to rendered text
+            </summary>
+        </member>
+        <member name="T:PortalAPI.Controllers.CaptchaImage.BackgroundNoiseLevel">
+            <summary>
+            Amount of background noise to add to rendered image
+            </summary>
+        </member>
+        <member name="T:PortalAPI.Controllers.CaptchaImage.LineNoiseLevel">
+            <summary>
+            Amount of curved line noise to add to rendered image
+            </summary>
+        </member>
+        <member name="P:PortalAPI.Controllers.CaptchaImage.UniqueId">
+            <summary>
+            Returns a GUID that uniquely identifies this Captcha
+            </summary>
+        </member>
+        <member name="P:PortalAPI.Controllers.CaptchaImage.RenderedAt">
+            <summary>
+            Returns the date and time this image was last rendered
+            </summary>
+        </member>
+        <member name="P:PortalAPI.Controllers.CaptchaImage.Font">
+            <summary>
+            Font family to use when drawing the Captcha text. If no font is provided, a random font will be chosen from the font whitelist for each character.
+            </summary>
+        </member>
+        <member name="P:PortalAPI.Controllers.CaptchaImage.FontWarp">
+            <summary>
+            Amount of random warping to apply to the Captcha text.
+            </summary>
+        </member>
+        <member name="P:PortalAPI.Controllers.CaptchaImage.BackgroundNoise">
+            <summary>
+            Amount of background noise to apply to the Captcha image.
+            </summary>
+        </member>
+        <member name="P:PortalAPI.Controllers.CaptchaImage.TextChars">
+            <summary>
+            A string of valid characters to use in the Captcha text. 
+            A random character will be selected from this string for each character.
+            </summary>
+        </member>
+        <member name="P:PortalAPI.Controllers.CaptchaImage.TextLength">
+            <summary>
+            Number of characters to use in the Captcha text. 
+            </summary>
+        </member>
+        <member name="P:PortalAPI.Controllers.CaptchaImage.Text">
+            <summary>
+            Returns the randomly generated Captcha text.
+            </summary>
+        </member>
+        <member name="P:PortalAPI.Controllers.CaptchaImage.Width">
+            <summary>
+            Width of Captcha image to generate, in pixels 
+            </summary>
+        </member>
+        <member name="P:PortalAPI.Controllers.CaptchaImage.Height">
+            <summary>
+            Height of Captcha image to generate, in pixels 
+            </summary>
+        </member>
+        <member name="P:PortalAPI.Controllers.CaptchaImage.FontWhitelist">
+            <summary>
+            A semicolon-delimited list of valid fonts to use when no font is provided.
+            </summary>
+        </member>
+        <member name="M:PortalAPI.Controllers.CaptchaImage.RenderImage">
+            <summary>
+            Forces a new Captcha image to be generated using current property value settings.
+            </summary>
+        </member>
+        <member name="F:PortalAPI.Controllers.CaptchaImage.static_RandomFontFamily_ff">
+            <summary>
+            Returns a random font family from the font whitelist
+            </summary>
+        </member>
+        <member name="M:PortalAPI.Controllers.CaptchaImage.GenerateRandomText">
+            <summary>
+            generate random text for the CAPTCHA
+            </summary>
+        </member>
+        <member name="M:PortalAPI.Controllers.CaptchaImage.RandomPoint(System.Int32,System.Int32,System.Int32@,System.Int32@)">
+            <summary>
+            Returns a random point within the specified x and y ranges
+            </summary>
+        </member>
+        <member name="M:PortalAPI.Controllers.CaptchaImage.RandomPoint(System.Drawing.Rectangle)">
+            <summary>
+            Returns a random point within the specified rectangle
+            </summary>
+        </member>
+        <member name="M:PortalAPI.Controllers.CaptchaImage.TextPath(System.String,System.Drawing.Font,System.Drawing.Rectangle)">
+            <summary>
+            Returns a GraphicsPath containing the specified string and font
+            </summary>
+        </member>
+        <member name="M:PortalAPI.Controllers.CaptchaImage.GetFont">
+            <summary>
+            Returns the CAPTCHA font in an appropriate size 
+            </summary>
+        </member>
+        <member name="M:PortalAPI.Controllers.CaptchaImage.GenerateImagePrivate">
+            <summary>
+            Renders the CAPTCHA image
+            </summary>
+        </member>
+        <member name="M:PortalAPI.Controllers.CaptchaImage.WarpText(System.Drawing.Drawing2D.GraphicsPath,System.Drawing.Rectangle)">
+            <summary>
+            Warp the provided text GraphicsPath by a variable amount
+            </summary>
+        </member>
+        <member name="M:PortalAPI.Controllers.CaptchaImage.AddNoise(System.Drawing.Graphics,System.Drawing.Rectangle)">
+            <summary>
+            Add a variable level of graphic noise to the image
+            </summary>
+        </member>
+        <member name="M:PortalAPI.Controllers.CaptchaImage.AddLine(System.Drawing.Graphics,System.Drawing.Rectangle)">
+            <summary>
+            Add variable level of curved lines to the image
+            </summary>
+        </member>
+        <member name="M:PortalAPI.Controllers.CoreAPI.BuyCard(System.String,System.String,System.Int32,System.Int32,System.String,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Mua thẻ, Topup cho số điện thoại
+            </summary>
+            <param name="money">Số tiền mua thẻ/Topup</param>
+            <param name="phoneNumber">Số điện thoại cần Topup</param>
+            <param name="type">type = 0: mua the,type = 1: trả trước, 2: trả sau</param>
+            <param name="provider">VTT, VNP, VMS</param>
+            <param name="quantity">Số lượng thẻ</param>
+            <param name="sourceId">1 = android, 2 = win32, 3 = ios, 4 = web</param>
+        </member>
+        <member name="M:PortalAPI.Controllers.CoreAPI.TransferQToXu(System.Int64,System.String,System.Int32,System.Int64@,System.Int64@,System.Int64@)">
+            <summary>
+            Đổi TotalCoin sang Xu
+            </summary>
+            <param name="accountId"></param>
+            <param name="ipAddress"></param>
+            <param name="bon">Số TotalCoin muốn đổi</param>
+            <returns> true nếu thành công, false nếu thất bại</returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.CoreAPI.UpdateSecurityInfo(System.Int32,System.String,System.String,System.String,System.Int32)">
+            <summary>
+            Cập nhật thông tin bảo mật của tài khoản
+            </summary>
+            <param name="accountId"></param>
+            <param name="email"></param>
+            <param name="mobile"></param>
+            <param name="passport"></param>
+            <param name="avatarId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.CoreAPI.UpdateMobile(System.Int32,System.String)">
+            <summary>
+            Cap nhat so dien thoai
+            </summary>
+            <param name="accountId"></param>
+            <param name="mobile"></param>
+            <returns> -102: Số điện thoại đã tồn tại</returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.CoreAPI.ChangePassWord(System.Int32,System.String,System.String,System.String)">
+            <summary>
+            Thay đổi mật khẩu
+            </summary>
+            <param name="accountId"></param>
+            <param name="accountName"></param>
+            <param name="oldPassWord"></param>
+            <param name="newPassWord"></param>
+            <param name="currentPassWord"></param>
+            <returns> -1: Không tồn tại tài khoản, -2: Mật khẩu cũ không đúng</returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.CoreAPI.CheckGiftCode(System.Int32,System.String,System.String,System.String,System.Int32,System.String,System.Int32,System.String,System.Int64@)">
+            <summary>
+            Kiem tra Giftcode
+            </summary>
+            <param name="accountId"></param>
+            <param name="accountName"></param>
+            <param name="nickName"></param>
+            <param name="giftCode"></param>
+            <param name="merchantId"></param>
+            <param name="merchantKey"></param>
+            <param name="sourceId"></param>
+            <param name="ipAddress"></param>
+            <param name="balance"></param>
+            <returns>
+            ERROR_NOT_EXIST_MERCHANTID INT = -90
+            ERROR_GIFCODE_USING INT = -100
+            ERROR_GIFCODE_NOT_EXIST INT = -101
+            ERROR_GIFCODE_NOT_TIME INT = -102
+            ERROR_GIFCODE_EXPIRE INT = -103
+            ERROR_GIFCODE_LOCK INT = -104
+            ERROR_GIFCODE_OVERLIMIT INT = -105
+            ERROR_GIFCODE_FAILED_SOURCE INT = -106
+            </returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.CoreAPI.GetTransactionHistory(System.Int32,System.Int32)">
+            <summary>
+            Lấy lịch sử giao dịch của người chơi
+            </summary>
+            <param name="accountId"></param>
+            <param name="type"> 1: BON; 2 = XU</param>
+        </member>
+        <member name="M:PortalAPI.Controllers.CoreAPI.Frozen(System.Int64,System.Int64,System.Boolean,System.Int32,System.String,System.Int64@,System.Int64@)">
+            <summary>
+            Đóng/Mở băng số dư tài khoản
+            </summary>
+            <param name="accountId"></param>
+            <param name="bonFrozen"> số bon đóng/mở băng</param>
+            <param name="frozen"> true: đóng băng, false: mở băng</param>
+            <returns></returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.OTPAPIController.SetupAppToken(GameServer.DataAccess.DTO.OTPs.SetupAppTokenInput)">
+            <summary>
+            đăng ký nhận otp khi login - trả cho client verify code
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.OTPAPIController.CheckTokenAvailable(GameServer.DataAccess.DTO.OTPs.TokensCheckActiveInput)">
+            <summary>
+            kiểm tra khả dụng trong phiên login giữa client - server
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.OTPAPIController.SyncTime(GameServer.DataAccess.DTO.OTPs.CheckActiveSyncTimeInput)">
+            <summary>
+            đồng bộ thời gian client - server
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.OTPAPIController.UpdateAccountInfo(GameServer.DataAccess.DTO.OTPs.AccountUpdateInfoInput)">
+            <summary>
+            update sđt
+            </summary>
+            <param name="input"></param>
+            <returns>
+            ResponCode nhỏ hơn 0 : show Mes | 
+            ResponCode > 0 : đổi thông tin thành công = > trả về các thông tin
+            public string PassPort { get; set; } |
+            public string Email { get; set; } |
+            public string Mobile { get; set; } |
+            public bool IsMobileActived { get; set; } |
+            public bool IsEmailActived { get; set; } |
+            public bool IsOTP { get; set; } |
+            public int ResponCode { get; set; } |
+            </returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.ProfileController.GetUserProfile(System.Byte,System.Int64)">
+            <summary>
+            get user profile
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.ProfileController.GetLeaderBoard(System.Byte,System.Byte)">
+            <summary>
+            Getleaderboard
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.ReportController.LoginForWebReport(System.Object)">
+            <summary>
+            Ham login cho Report
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.ReportController.CheckOTP(System.String,System.String,System.Int32)">
+            <summary>
+            Xác thực mã OTP
+            </summary>
+            <param name="serviceKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.ReportController.TransferReport(System.Object)">
+            <summary>
+            API chuyen tien cho Report
+            </summary>
+            <param name="data"></param>
+            <returns>
+            HttpStatusCode.OK
+            Số dư của tk chuyển nếu thành công.
+            </returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.ReportController.RegisterSecurityReport(PortalAPI.Controllers.RegisterSecurityModels)">
+             <summary>
+             API cho Report: Đăng ký OTP
+             </summary>
+             <param name="model">
+             model.Type: 1--> Đăng ký OTP; 2--> Hủy OTP;
+            
+             </param>
+             <returns>
+             </returns>
+        </member>
+        <member name="M:PortalAPI.Controllers.ReportController.CheckCardMaintain(System.String,System.Int32)">
+            <summary>
+            Kiểm tra thẻ có bảo trì hay không
+            </summary>
+            <param name="cardType">VTT, VMS, VNP, GATE</param>
+            <param name="topupType">0 = Nạp thẻ, 3 = Mua thẻ</param>
+            <returns>Thẻ OK: HttpCode = 200, Thẻ bảo trì: HttpCode != 200</returns>
+        </member>
+        <member name="T:PortalAPI.Models.BuyCardData">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:PortalAPI.OTP.OtpData">
+            <summary>
+            OtpData
+            </summary>
+            <param name="OtpType">
+            1 = OTP SMS
+            2 = OTP App
+            </param>
+            /// <param name="OtpToken">
+            Chuỗi server trả về client cho mỗi dịch vụ cần OTP, client phải gửi lên server cùng với mã OTP
+            </param>
+        </member>
+        <member name="M:PortalAPI.OTP.OTPSecurity.CheckOTP(System.Int64,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Kiểm tra mã OTP SMS
+            </summary>
+            <param name="otp">
+            Mã OTP
+            </param>
+            <param name="type">
+            0: Kiểm tra mã OTP
+            9: Hủy Login OTP
+            1: DK OTP
+            </param>
+            <param name="otpType">
+            1: OTP SMS
+            2: OTP APP
+            </param>
+            <param name="userName"></param>
+            <returns>
+            3: Thành công
+            != 3: Thất bại
+            </returns>
+        </member>
+        <member name="M:PortalAPI.OTP.OTPSecurity.CreateOTPToken(System.String,System.Int64,System.Int32,System.Int32,System.String)">
+            <summary>
+            Tao OTP token key
+            </summary>
+            <param name="userName"></param>
+            <param name="accountID"></param>
+            <param name="serviceId"></param>
+            <param name="platformId"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

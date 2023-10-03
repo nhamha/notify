@@ -1,0 +1,37 @@
+﻿
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="border-top: 5px solid #285B9E">
+    <div class="top"></div>
+    <div class="container">
+        <div class="navbar-header" style="padding: 7px 18px;">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="">Hệ thống quản trị CMS</a>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+
+            <partial name="Menu.cshtml">
+
+                <ul class="nav navbar-top-links navbar-right">
+                    <li class="dropdown dropdown-user">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-animations="flipInX flipInY flipInX flipInY" data-close-others=" true" role="button" aria-expanded="false">
+                            <img src="~/images/favicon_care.ico" />
+
+                            <span class="username username-hide-on-mobile">
+                                Username
+                            </span>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;" id="logout1"><i class="fa fa-sign-out fa-fw">Exit</i></a>
+                    </li>
+
+                </ul>
+        </div>
+    </div>
+</nav>

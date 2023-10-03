@@ -1,0 +1,69 @@
+﻿
+<div id="page-wrapper" class="container">
+    <div>
+        <br />
+    </div>
+
+    <div id="TemplateContent">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading"><i class="fa fa-wrench"></i>Quản trị Chat Box</div>
+                    <!--khung chương trình-->
+                    <div class="panel-body">
+                        <!--phần search-->
+                        <div class="col-md-12 divControlSearch">
+                            <!--phần selection-->
+                            <div class="col-md-12" style="text-align:center">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active">
+                                        <a class="btn btn-sm btn-info" href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">CHAT BOX</a>
+                                    </li>
+                                    <li role="presentation" class="">
+                                        <a class="btn btn-sm btn-warning" href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">SETTINGS</a>
+                                    </li>
+                                    <li role="presentation" class="">
+                                        <a class="btn btn-sm btn-danger" href="#tab3" aria-controls="tab3" role="tab" data-toggle="tab">ACCOUNT</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="FunctionPartial">
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane @((Html.Raw(ViewBag.Tab).ToString() != "2" && Html.Raw(ViewBag.Tab).ToString() != "3")?"active":"")" id="tab1">
+                                    <div class="col-lg-12 inlineblock">
+                                        @* Tab 1 *@
+                                        <div class="col-lg-4">
+                                            @*@Html.Action("AccountOnline", "Cms")
+                                                @Html.Action("AccountBlock", "Cms")*@
+                                        </div>
+                                        <div class="col-lg-4">
+                                            @*@Html.Action("InfoAccount", "Cms")*@
+                                        </div>
+                                        <div class="col-lg-4">
+                                            @*@Html.Action("ChatBox", "Cms")*@
+                                        </div>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane @((Html.Raw(ViewBag.Tab).ToString() == "2") ? "active" : "")" id="tab2">
+                                    <div class="col-lg-12">
+                                        @* Tab 2 *@
+                                        @*@Html.Action("SpamBlock", "Cms")
+                                            @Html.Action("KeywordBlock", "Cms")*@
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane @((Html.Raw(ViewBag.Tab).ToString() == "3") ? "active" : "")" id="tab3">
+                                    <div class="col-lg-12">
+                                        @* Tab 3 *@
+                                        @*@Html.Action("ListAccountAdmin", "Cms")*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
