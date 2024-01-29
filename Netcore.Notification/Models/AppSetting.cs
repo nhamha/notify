@@ -13,11 +13,8 @@
         public string RoomValue { get; set; }
         public double SecondsRequest { get; set; }
         public int TimeWaitGetProfit { get; set; }
-
         public int TimeWaitVQMM { get; set; }
-
         public string OneSignal { get; set; }
-
         public bool IsAlpha { get; set; }
     }
 }

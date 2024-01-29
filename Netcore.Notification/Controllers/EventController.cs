@@ -5,12 +5,8 @@ using Netcore.Notification.Models;
 using NetCore.Utils.Log;
 using System;
 using System.Collections.Generic;
-using System.Threading;
+using System.Linq;
 using System.Threading.Tasks;
-using System.Timers;
-
-
-
 
 namespace Netcore.Notification.Controllers
 {
@@ -24,42 +20,44 @@ namespace Netcore.Notification.Controllers
         private List<ShareProfit> _listShareProfit = new List<ShareProfit>();
         private List<VQMMSpin> _listVQMMUserPrize = new List<VQMMSpin>();
         private long VQMMFund = 0;
-        public EventController(ConnectionHandler connection, SQLAccess sql,
+
+        public EventController(ConnectionHandler connection, SQLAccess sql, JobEventAccess eventSql,
             IOptions<AppSettings> options, PlayerHandler playerHandler)
         {
             _playerHandler = playerHandler;
             _connection = connection;
             _sql = sql;
+            _eventSql = eventSql;
             _settings = options.Value;
-            var timer = new System.Timers.Timer(3000.0);
-            timer.Elapsed += aTimer_Elapsed;
-            timer.Enabled = true;
+            var aTimer = new System.Timers.Timer(3000);
+            aTimer.Elapsed += aTimer_Elapsed;
+            aTimer.Enabled = true;
         }
-
-        private void aTimer_Elapsed(object sender, ElapsedEventArgs e) => Task.Run((async () =>
+        private void aTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            await Task.Delay(500);
-            _listShareProfit = _sql.GetListShareProfit();
-            _listVQMMUserPrize = _eventSql.VQMMGetUserPrize();
-            //_connection._hubContext.Clients.All.SendAsync("events", lstEventInfo.Values.ToList());
-            await _connection._hubContext.Clients.All.SendAsync("listShareProfit",_listVQMMUserPrize);
-        }));
-
+            Task.Run(async () =>
+            {
+                //VQMMFund = _eventSql.GetVQMMFund();
+                //await _connection._hubContext.Clients.All.SendAsync("VQMMFund", VQMMFund);
+                await Task.Delay(500);
+                _listShareProfit = _sql.GetListShareProfit();
+                _listVQMMUserPrize = _eventSql.VQMMGetUserPrize();
+                await _connection._hubContext.Clients.All.SendAsync("listShareProfit", _listShareProfit, _listVQMMUserPrize);
+            });
+        }
         public long GetVQMMFund()
         {
             return VQMMFund;
         }
         public List<ShareProfit> GetListShareProfit()
         {
-            return _listShareProfit; ;
+            return _listShareProfit;
         }
 
         public List<VQMMSpin> GetListVQMMUserPrize()
         {
             return _listVQMMUserPrize;
         }
-
-
         public long FootballGetGift(long accountId, string accountName, int prizeId, ref long balance)
         {
             return _sql.FootballGetGift(accountId, accountName, prizeId, ref balance);

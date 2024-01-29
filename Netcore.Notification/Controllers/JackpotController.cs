@@ -48,6 +48,10 @@ namespace Netcore.Notification.Controllers
                 var gameIDs = _settings.GameIDs.Split(',');
                 for (var i = 0; i < lstUrl.Length; i++)
                 {
+                    if (string.IsNullOrEmpty(lstUrl[i]))
+                    {
+                        continue;
+                    }
                     var strJackpot = await _dataService.GetAsync(lstUrl[i], false);
                     var jackpot = new Jackpot
                     {

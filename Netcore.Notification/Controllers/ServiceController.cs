@@ -5,7 +5,6 @@ using Netcore.Notification.DataAccess;
 using Netcore.Notification.Models;
 using NetCore.Utils.Sessions;
 using System.Collections.Generic;
-using System.Net.WebSockets;
 
 namespace Netcore.Notification.Controllers
 {
@@ -26,8 +25,7 @@ namespace Netcore.Notification.Controllers
 
         public ServiceController(ILogger<ServiceController> logger, ConnectionHandler connection,
             IOptions<AppSettings> options, XJackpotController xJackpotController, EventController eventController,
-          AccountSession accountSession, NotificationHandler notificationHandler, PlayerHandler playerHandler, SQLAccess sql,
-          JobEventAccess jobEventAccess)
+          AccountSession accountSession, NotificationHandler notificationHandler, PlayerHandler playerHandler, SQLAccess sql, JobEventAccess jobEventAccess)
         {
             _playerHandler = playerHandler;
             _connection = connection;
@@ -39,8 +37,7 @@ namespace Netcore.Notification.Controllers
             _eventController = eventController;
             _sql = sql;
             _jobEventAccess = jobEventAccess;
-
-    }
+        }
 
         [HttpGet]
         [Route("DeleteManyUserMail")]
@@ -82,18 +79,17 @@ namespace Netcore.Notification.Controllers
         public ActionResult Test()
         {
             long balance = 0;
-            var response = _sql.FootbalBetPlayer(1, "test01", 1, 100, ref balance);
-            return Ok(1);
+            var response = _jobEventAccess.QuestGetPrizeByAccount(1);
+            return Ok(response);
+        }
+        [HttpGet]
+        [Route("GetListUserQuest")]
+        public ActionResult GetListUserQuest()
+        {
+            var response = _jobEventAccess.QuestGetList(1,"aloha");
+            return Ok(response);
         }
 
-        [HttpGet]
-        [Route("TestQuest")]
-        public ActionResult TestQuest()
-        {
-            var res = _jobEventAccess.QuestGetPrizeByAccount(1);
-            return Ok(res);
-        }
-        
         // GET api/values/5
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)

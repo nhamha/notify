@@ -3,8 +3,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Netcore.Notification.DataAccess;
 using Netcore.Notification.Models;
-using NetCore.Utils.Log;
 using NetCore.Utils.Interfaces;
+using NetCore.Utils.Log;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -25,12 +25,9 @@ namespace Netcore.Notification.Controllers
         private ImmutableList<PopupNotification> lstPopNotification = ImmutableList<PopupNotification>.Empty;
         private ImmutableList<UserNotification> lstUserNotification = ImmutableList<UserNotification>.Empty;
         private ImmutableList<LobbyText> lstLobbyText = ImmutableList<LobbyText>.Empty;
-        
-
-        private int countUserNotifyTimer = 0;
+        int countUserNotifyTimer = 0;
         public NotificationHandler(ConnectionHandler connection, SQLAccess sql,
-            IOptions<AppSettings> options, PlayerHandler playerHandler,
-            IDataService dataService)
+            IOptions<AppSettings> options, PlayerHandler playerHandler, IDataService dataService)
         {
             _playerHandler = playerHandler;
             _connection = connection;
@@ -64,57 +61,60 @@ namespace Netcore.Notification.Controllers
                 {
                     _connection._hubContext.Clients.All.SendAsync("LobbyText", lstLobbyText);
                 }
-                ++countUserNotifyTimer;
-                if (countUserNotifyTimer != 10)
-                    return;
-                countUserNotifyTimer = 0;
-                List<SystemNotification> topJackpot = _sql.GetTopJackpot(0);
-                _connection._hubContext.Clients.All.SendAsync("topJackpot", topJackpot);
-
-
-                foreach (SystemNotification systemNotification2 in topJackpot)
+                countUserNotifyTimer++;
+                if (countUserNotifyTimer == 10)
                 {
-                    string str = string.Empty;
-                    switch (systemNotification2.GameID)
+                    countUserNotifyTimer = 0;
+                    var topJackpot = _sql.GetTopJackpot(0);
+                    _connection._hubContext.Clients.All.SendAsync("topJackpot", topJackpot);
+
+                    foreach (var item in topJackpot)
                     {
-                        case 49:
-                            str = "Windy";
-                            break;
-                        case 50:
-                            str = "Halloween";
-                            break;
-                        case 53:
-                            str = "Fox";
-                            break;
-                        case 100:
-                            str = "Phục Sinh";
-                            break;
-                        case 101:
-                            str = "Kungfu Panda";
-                            break;
-                        case 103:
-                            str = "Ariel";
-                            break;
-                        case 104:
-                            str = "Cowboy";
-                            break;
-                        case 105:
-                            str = "PharaOh";
-                            break;
-                        case 109:
-                            str = "Gem";
-                            break;
+                        string gameName = string.Empty;
+                        switch (item.GameID)
+                        {
+                            case 49:
+                                gameName = "Windy";
+                                break;
+                            case 50:
+                                gameName = "Halloween";
+                                break;
+                            case 53:
+                                gameName = "Fox";
+                                break;
+                            case 100:
+                                gameName = "Phục Sinh";
+                                break;
+                            case 101:
+                                gameName = "Kungfu Panda";
+                                break;
+                            case 103:
+                                gameName = "Ariel";
+                                break;
+                            case 104:
+                                gameName = "Cowboy";
+                                break;
+                            case 105:
+                                gameName = "Jungle";
+                                break;
+                            case 109:
+                                gameName = "Gem";
+                                break;
+                            default:
+                                break;
+                        }
+                        string content = string.Format("Chúc mừng {0} trúng hũ {1} game {2}", item.UserName, item.Amount.ToString("n0"), gameName);
+                        NLogManager.LogInfo(content);
+                        if (!string.IsNullOrEmpty(_settings.OneSignal))
+                        {
+                            var url = _settings.OneSignal + "?content=" + content;
+                            _dataService.GetAsync(url);
+                        }
+
                     }
-                    string message = string.Format("Chúc mừng {0} trúng hũ {1} game {2}", systemNotification2.UserName, systemNotification2.Amount.ToString("n0"), str);
-                    NLogManager.LogInfo(message);
-                    if (!string.IsNullOrEmpty(_settings.OneSignal))
-                        _dataService.GetAsync(_settings.OneSignal + "?content=" + message);
+
+
                 }
-                //if (CountUserNotifyTimer == 10)
-                //{
-                //    CountUserNotifyTimer = 0;
-                //    ProcessPopupNotificaion();
-                //}
             }
             catch (Exception ex)
             {
@@ -126,7 +126,6 @@ namespace Netcore.Notification.Controllers
         {
             return lstNotification.ToList();
         }
-
         public List<LobbyText> GetLobbyText()
         {
             return lstLobbyText.ToList();
@@ -152,7 +151,7 @@ namespace Netcore.Notification.Controllers
 
         //public List<UserQuantityNotification> GetUnSendUserNotifyQuantity(string userName)
         //{
-        //    var res = _sql.GetUnSendUserNotifyQuantity(userName);
+        //    var res = _sql.GetGetUnSendUserNotifyQuantity(userName);
         //    return res;
         //}
 
@@ -191,16 +190,15 @@ namespace Netcore.Notification.Controllers
             var connections = _connection.GetConnections(accountId);
             _connection._hubContext.Clients.Clients(connections).SendAsync("popup", content, type, balance);
         }
+        public void UserShareProfit(string nickName, long prizeValue)
+        {
+            _connection._hubContext.Clients.All.SendAsync("userShareProfit", nickName, prizeValue);
+        }
 
         //public List<UserNotification> SetReadPopupNotification(long notifyID, long accountID)
         //{
         //    var res = _sql.SetUserNotifyReadByID(notifyID, accountID);
         //    return res;
         //}
-
-        public void UserShareProfit(string nickName, long prizeValue)
-        {
-            _connection._hubContext.Clients.All.SendAsync("userShareProfit", nickName, prizeValue);
-        }   
     }
 }

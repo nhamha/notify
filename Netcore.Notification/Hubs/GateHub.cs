@@ -10,9 +10,9 @@ using NetCore.Utils.Sessions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Threading;
+using System.Linq;
 using System.Threading.Tasks;
+using static NetCore.Utils.Enums;
 
 namespace Netcore.Notification.Hubs
 {
@@ -419,6 +419,7 @@ namespace Netcore.Notification.Hubs
                 NLogManager.PublishException(ex);
             }
         }
+
         public async Task FootballBetOfAccount()
         {
             long accountId = _accountSession.AccountID;
@@ -439,6 +440,7 @@ namespace Netcore.Notification.Hubs
                 await Clients.Caller.SendAsync("resultOfAccount", Enums.ErrorCode.Exception);
             }
         }
+
         public async Task FootballGetTime()
         {
             long accountId = _accountSession.AccountID;
@@ -459,6 +461,7 @@ namespace Netcore.Notification.Hubs
                 await Clients.Caller.SendAsync("footballTime", Enums.ErrorCode.Exception);
             }
         }
+
         public async Task FootballBet(int prizeId, int betValue)
         {
             long accountId = _accountSession.AccountID;
@@ -486,9 +489,10 @@ namespace Netcore.Notification.Hubs
             }
         }
 
-        #endregion
+        #endregion Player
 
         #endregion Event Football
+
         #region Vip99
 
         public async Task LoyaltyGetPrizeByAccount()
@@ -510,6 +514,7 @@ namespace Netcore.Notification.Hubs
                 NLogManager.PublishException(ex);
             }
         }
+
         public async Task LoyaltyGetAccount()
         {
             long accountId = _accountSession.AccountID;
@@ -529,6 +534,7 @@ namespace Netcore.Notification.Hubs
                 NLogManager.PublishException(ex);
             }
         }
+
         public async Task LoyaltyGetTop()
         {
             long accountId = _accountSession.AccountID;
@@ -548,6 +554,7 @@ namespace Netcore.Notification.Hubs
                 NLogManager.PublishException(ex);
             }
         }
+
         public async Task LoyaltyGetMoney(int prizeId)
         {
             long accountId = _accountSession.AccountID;
@@ -569,15 +576,18 @@ namespace Netcore.Notification.Hubs
                 NLogManager.PublishException(ex);
             }
         }
-        #endregion
+
+        #endregion Vip99
+
         #region Event tán lộc
+
         [HubMethodName("ShareProfit")]
         public void ShareProfit(int prizeValue)
         {
             try
             {
                 var accountId = _accountSession.AccountID;
-                if (accountId < 1 || string.IsNullOrEmpty(_accountSession.NickName))
+                if (accountId < 1 || string.IsNullOrEmpty(_accountSession.NickName) || _accountSession.IsAgency)
                 {
                     Clients.Caller.SendAsync("shareProfitResult", Enums.ErrorCode.NotAuthen);
                     return;
@@ -612,13 +622,35 @@ namespace Netcore.Notification.Hubs
             }
         }
 
-        [HubMethodName("GetProfit")]
-        public async Task GetProfit()
+        [HubMethodName("GetListShareProfit")]
+        public void GetListShareProfit()
         {
             try
             {
                 var accountId = _accountSession.AccountID;
                 if (accountId < 1 || string.IsNullOrEmpty(_accountSession.NickName))
+                {
+                    Clients.Caller.SendAsync("listShareProfit", Enums.ErrorCode.NotAuthen);
+                    return;
+                }
+                var response = _eventController.GetListShareProfit();
+                var response1 = _eventController.GetListVQMMUserPrize();
+                Clients.Caller.SendAsync("listShareProfit", response, response1);
+            }
+            catch (Exception ex)
+            {
+                NLogManager.LogException(ex);
+                Clients.Caller.SendAsync("listShareProfit", Enums.ErrorCode.Exception);
+            }
+        }
+        [HubMethodName("GetProfit")]
+        public async Task GetProfit()
+        {
+            return;
+            try
+            {
+                var accountId = _accountSession.AccountID;
+                if (accountId < 1 || string.IsNullOrEmpty(_accountSession.NickName) || _accountSession.IsAgency)
                 {
                     await Clients.Caller.SendAsync("getProfitResult", Enums.ErrorCode.NotAuthen);
                     return;
@@ -676,12 +708,11 @@ namespace Netcore.Notification.Hubs
                 var key = "GetProfit" + _accountSession.NickName;
                 if (_cacheHandler.MemTryGet(key, out dateTime))
                 {
-                    var seconds = _settings.TimeWaitGetProfit - (DateTime.Now - dateTime).TotalSeconds;
+                    var seconds = _settings.TimeWaitGetProfit - (int)(DateTime.Now - dateTime).TotalSeconds;
                     await Clients.Caller.SendAsync("getTimeResult", seconds);
                     return;
                 }
                 await Clients.Caller.SendAsync("getTimeResult", 0);
-
             }
             catch (Exception ex)
             {
@@ -689,17 +720,20 @@ namespace Netcore.Notification.Hubs
                 await Clients.Caller.SendAsync("getTimeResult", Enums.ErrorCode.Exception);
             }
         }
-        #endregion
-        #region 
+
+        #endregion Event tán lộc
+
+        #region VQMM
 
         [HubMethodName("VQMMSpin")]
         public async Task Spin()
         {
             var accountId = _accountSession.AccountID;
-            if (accountId < 1 || string.IsNullOrEmpty(_accountSession.NickName))
+            if (accountId < 1 || string.IsNullOrEmpty(_accountSession.NickName) || _accountSession.IsAgency)
             {
                 return;
             }
+            NLogManager.LogInfo($"accountid: {accountId} nickname: {_accountSession.NickName} spin");
             if (_accountSession.IsAgency)
             {
                 await Clients.Caller.SendAsync("VQMMSpinResult", Enums.ErrorCode.ERR_IS_AGENCY);
@@ -712,20 +746,20 @@ namespace Netcore.Notification.Hubs
             }
             DateTime dateTime = DateTime.Now.AddDays(-1);
             var key = "VQMMGet" + _accountSession.AccountName;
-            if (_settings.IsAlpha && _cacheHandler.MemTryGet(key, out dateTime))
+            if (!_settings.IsAlpha && _cacheHandler.MemTryGet(key, out dateTime))
             {
                 await Clients.Caller.SendAsync("VQMMSpinResult", new VQMMSpin(), new List<VQMMSpin>());
                 return;
             }
             var res = _jobAccess.EventVQMMSpin(accountId, _accountSession.NickName);
+            NLogManager.LogInfo(JsonConvert.SerializeObject(res));
             await Clients.Caller.SendAsync("VQMMSpinResult", res, _jobAccess.VQMMGetAllPrize());
             _cacheHandler.MemSet(_settings.TimeWaitVQMM, key, DateTime.Now);
-
         }
+
         [HubMethodName("VQMMGet")]
         public async Task VQMMGet()
         {
-
             var accountId = _accountSession.AccountID;
             if (accountId < 1 || string.IsNullOrEmpty(_accountSession.NickName))
             {
@@ -733,7 +767,7 @@ namespace Netcore.Notification.Hubs
             }
             DateTime dateTime = DateTime.Now.AddDays(-1);
             var key = "VQMMGet" + _accountSession.AccountName;
-            if (_settings.IsAlpha && _cacheHandler.MemTryGet(key, out dateTime))
+            if (!_settings.IsAlpha && _cacheHandler.MemTryGet(key, out dateTime))
             {
                 var seconds = _settings.TimeWaitVQMM - (int)(DateTime.Now - dateTime).TotalSeconds;
                 await Clients.Caller.SendAsync("VQMMGetResult", 0, seconds);
@@ -741,21 +775,24 @@ namespace Netcore.Notification.Hubs
             }
 
             var res = _jobAccess.EventVQMMGet(accountId);
-            await Clients.Caller.SendAsync("VQMMGetResult", res);
+            NLogManager.LogInfo(key + " " + res);
 
+            await Clients.Caller.SendAsync("VQMMGetResult", res);
         }
-  
+
         [HubMethodName("VQMMGetFund")]
         public async Task VQMMGetFund()
         {
             var accountId = _accountSession.AccountID;
             if (accountId < 1 || string.IsNullOrEmpty(_accountSession.NickName))
+            {
                 return;
-            long res = _eventController.GetVQMMFund();
+            }
+            var res = _eventController.GetVQMMFund();
             await Clients.Caller.SendAsync("VQMMFund", res);
         }
 
-        #endregion
+        #endregion VQMM
 
         #region Nạp thẻ
 
@@ -798,56 +835,219 @@ namespace Netcore.Notification.Hubs
                 NLogManager.PublishException(ex);
             }
         }
-        #endregion
 
+        #endregion Nạp thẻ
+
+        #region Quest
 
         public async Task QuestGetPrizeByAccount()
         {
-            var  accountId = _accountSession.AccountID;
+            long accountId = _accountSession.AccountID;
             string username = _accountSession.NickName;
-            if (accountId < 1L || string.IsNullOrEmpty(username))
+            if (accountId < 1 || string.IsNullOrEmpty(username))
             {
-                NLogManager.LogInfo("PlayNow-NotAuthen: AccountId: " + accountId.ToString() + "|ClientIP: " + _accountSession.IpAddress);
+                NLogManager.LogInfo("PlayNow-NotAuthen: AccountId: " + accountId + "|ClientIP: " + _accountSession.IpAddress);
+                return;
             }
-            else
+            try
             {
-                try
-                {
-                    var response = _jobAccess.QuestGetPrizeByAccount(accountId);
-                    
-                    await Clients.Caller.SendAsync("QuestPrize", response);
-                }
-                catch (Exception ex)
-                {
-                    NLogManager.PublishException(ex);
-                }
+                var response = _jobAccess.QuestGetPrizeByAccount(accountId);
+                await Clients.Caller.SendAsync("QuestPrize", response);
+            }
+            catch (Exception ex)
+            {
+                NLogManager.PublishException(ex);
             }
         }
         public async Task QuestGetMoney(int prizeId)
         {
-            var accountId = _accountSession.AccountID;
+            long accountId = _accountSession.AccountID;
             string username = _accountSession.NickName;
-            if (accountId < 1L || string.IsNullOrEmpty(username) || prizeId <= 0)
+            if (accountId < 1 || string.IsNullOrEmpty(username) || prizeId <= 0)
             {
-                NLogManager.LogInfo("PlayNow-NotAuthen: AccountId: " + accountId.ToString() + "|ClientIP: " + _accountSession.IpAddress);
-                username = (string)null;
+                NLogManager.LogInfo("PlayNow-NotAuthen: AccountId: " + accountId + "|ClientIP: " + _accountSession.IpAddress);
+                return;
             }
-            else
+            try
             {
-                try
+                var res = _jobAccess.QuestGetMoney(_accountSession.AccountID, _accountSession.NickName, prizeId, _accountSession.IpAddress);
+                await Clients.Caller.SendAsync("QuestGetMoneyResult", res.Item1, res.Item2);
+            }
+            catch (Exception ex)
+            {
+                NLogManager.PublishException(ex);
+            }
+        }
+        public async Task QuestGetListExchangeRate()
+        {
+            long accountId = _accountSession.AccountID;
+            string username = _accountSession.NickName;
+            if (accountId < 1 || string.IsNullOrEmpty(username))
+            {
+                NLogManager.LogInfo("QuestGetListExchangeRate-NotAuthen: AccountId: " + accountId + "|ClientIP: " + _accountSession.IpAddress);
+                return;
+            }
+            try
+            {
+                var res = _jobAccess.QuestGetListExchangeRate();
+                await Clients.Caller.SendAsync("QuestListExchangeRateResult", new { code = Enums.ErrorCode.Success, data = res });
+            }
+            catch (Exception ex)
+            {
+                NLogManager.PublishException(ex);
+                await Clients.Caller.SendAsync("QuestGetListResult", new { code = Enums.ErrorCode.Exception });
+            }
+        }
+        public async Task QuestGetList()
+        {
+            long accountId = _accountSession.AccountID;
+            string username = _accountSession.NickName;
+            if (accountId < 1 || string.IsNullOrEmpty(username))
+            {
+                NLogManager.LogInfo("QuestGetListExchangeRate-NotAuthen: AccountId: " + accountId + "|ClientIP: " + _accountSession.IpAddress);
+                return;
+            }
+            try
+            {
+                var res = _jobAccess.QuestGetList(accountId, username);
+                await Clients.Caller.SendAsync("QuestGetListResult", new { code = Enums.ErrorCode.Success, data = res });
+            }
+            catch (Exception ex)
+            {
+                NLogManager.PublishException(ex);
+                await Clients.Caller.SendAsync("QuestGetListResult", new { code = Enums.ErrorCode.Exception });
+            }
+        }
+        public async Task QuestGetPoint(long questId)
+        {
+            long accountId = _accountSession.AccountID;
+            string username = _accountSession.NickName;
+            if (accountId < 1 || string.IsNullOrEmpty(username))
+            {
+                NLogManager.LogInfo("QuestGetListExchangeRate-NotAuthen: AccountId: " + accountId + "|ClientIP: " + _accountSession.IpAddress);
+                return;
+            }
+            try
+            {
+                var res = _jobAccess.QuestGetAward(questId, accountId);
+                if (res < 0)
                 {
-                    (int, long) res = _jobAccess.QuestGetMoney(accountId, username, prizeId, _accountSession.IpAddress);
-                    await Clients.Caller.SendAsync("QuestGetMoneyResult",res.Item1,res.Item2 );
+                    await Clients.Caller.SendAsync("QuestGetAwardResult", new
+                    {
+                        code = Enums.ErrorCode.Failed,
+                        description = "Chưa hoàn thành nhiệm vụ hoặc đã nhận thưởng rồi"
+                    });
+
                 }
-                catch (Exception ex)
+                else
                 {
-                    NLogManager.PublishException(ex);
+                    await Clients.Caller.SendAsync("QuestGetAwardResult", new
+                    {
+                        code = Enums.ErrorCode.Success,
+                        description = "Nhận thưởng thành công",
+                        data = new { Point = res }
+                    });
                 }
+            }
+            catch (Exception ex)
+            {
+                NLogManager.PublishException(ex);
+                await Clients.Caller.SendAsync("QuestGetAwardResult", new { code = Enums.ErrorCode.Exception });
             }
         }
 
+        public async Task QuestGetPointBalance()
+        {
+            long accountId = _accountSession.AccountID;
+            string username = _accountSession.NickName;
+            if (accountId < 1 || string.IsNullOrEmpty(username))
+            {
+                NLogManager.LogInfo("QuestGetListExchangeRate-NotAuthen: AccountId: " + accountId + "|ClientIP: " + _accountSession.IpAddress);
+                return;
+            }
+            try
+            {
+                var res = _jobAccess.QuestGetPointBalance(accountId);
+                await Clients.Caller.SendAsync("QuestPointBalanceResult", new { code = Enums.ErrorCode.Success, data = res });
+            }
+            catch (Exception ex)
+            {
+                NLogManager.PublishException(ex);
+                await Clients.Caller.SendAsync("QuestPointBalanceResult", new { code = Enums.ErrorCode.Exception });
+            }
+        }
+        public async Task QuestExchangePoint(int point)
+        {
+            long accountId = _accountSession.AccountID;
+            string username = _accountSession.NickName;
+            if (accountId < 1 || string.IsNullOrEmpty(username))
+            {
+                NLogManager.LogInfo("QuestGetListExchangeRate-NotAuthen: AccountId: " + accountId + "|ClientIP: " + _accountSession.IpAddress);
+                return;
+            }
+            try
+            {
+                var res = _jobAccess.QuestExchangePoint(accountId, point);
+                if (res.Item1 < 0)
+                {
+                    switch (res.Item1)
+                    {
+                        case -1:
+                            await Clients.Caller.SendAsync("QuestExchangePointResult",
+                                new { code = Enums.ErrorCode.Failed, description = "Không tìm thấy tỉ lệ" });
 
+                            break;
+                        case -51:
+                            await Clients.Caller.SendAsync("QuestExchangePointResult",
+                                new { code = Enums.ErrorCode.Failed, description = "Không đủ số point" });
+                            break;
+                        default:
+                            await Clients.Caller.SendAsync("QuestExchangePointResult",
+                               new { code = Enums.ErrorCode.Failed, description = "Có lỗi xảy ra" });
+                            break;
+                    }
+                }
+                else
+                {
+                    await Clients.Caller.SendAsync("QuestExchangePointResult", new
+                    {
+                        code = Enums.ErrorCode.Success,
+                        data = new
+                        {
+                            point = res.Item1,
+                            balance = res.Item2
+                        }
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                NLogManager.PublishException(ex);
+                await Clients.Caller.SendAsync("QuestExchangePointResult", new { code = Enums.ErrorCode.Exception });
+            }
+        }
+        public async Task QuestAttendance()
+        {
+            long accountId = _accountSession.AccountID;
+            string username = _accountSession.NickName;
+            if (accountId < 1 || string.IsNullOrEmpty(username))
+            {
+                NLogManager.LogInfo("QuestGetListExchangeRate-NotAuthen: AccountId: " + accountId + "|ClientIP: " + _accountSession.IpAddress);
+                return;
+            }
+            try
+            {
+                var res = _jobAccess.QuestAttendance(accountId, username);
+                await Clients.Caller.SendAsync("QuestAttendanceResult", new { code = Enums.ErrorCode.Success, data = res });
+            }
+            catch (Exception ex)
+            {
+                NLogManager.PublishException(ex);
+                await Clients.Caller.SendAsync("QuestAttendanceResult", new { code = Enums.ErrorCode.Exception });
+            }
 
+        }
+        #endregion Quest
 
         #region Base
 
@@ -862,6 +1062,7 @@ namespace Netcore.Notification.Hubs
                 {
                     return base.OnConnectedAsync();
                 }
+                NLogManager.LogInfo($"Account: {accountId}  {username} connect");
 
                 _connection.PlayerConnect(accountId, Context.ConnectionId);
                 var player = _playerHandler.GetPlayer(accountId);

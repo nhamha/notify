@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using Netcore.Notification.Models;
 using NetCore.Utils.Interfaces;
 using NetCore.Utils.Log;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -43,12 +44,16 @@ namespace Netcore.Notification.DataAccess
                 return new List<SystemNotification>();
             }
         }
+
         public List<SystemNotification> GetTopJackpot(int gameID)
         {
             try
             {
                 _dbHelper.SetConnectionString(connectionString);
-                return _dbHelper.GetListSP<SystemNotification>("SP_Notifications_GetTopJackpot", new SqlParameter("@_GameID", gameID));
+                var pars = new SqlParameter[1];
+                pars[0] = new SqlParameter("@_GameID", gameID);
+                var res = _dbHelper.GetListSP<SystemNotification>("SP_Notifications_GetTopJackpot", pars);
+                return res;
             }
             catch (Exception ex)
             {
@@ -56,6 +61,7 @@ namespace Netcore.Notification.DataAccess
                 return new List<SystemNotification>();
             }
         }
+
         public List<LobbyText> GetLobbyText()
         {
             try
@@ -570,11 +576,13 @@ namespace Netcore.Notification.DataAccess
         {
             try
             {
-                return _dbHelper.GetListSP<ShareProfit>(eventConnectionString, "SP_ShareProfit_GetList");
+                var lst = _dbHelper.GetListSP<ShareProfit>(eventConnectionString, "SP_ShareProfit_GetList");
+               // NLogManager.LogInfo(JsonConvert.SerializeObject(lst));
+                return lst;
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                NLogManager.LogException(ex);
+                NLogManager.LogException(exception);
                 return new List<ShareProfit>();
             }
         }

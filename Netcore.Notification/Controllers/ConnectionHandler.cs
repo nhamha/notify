@@ -65,8 +65,11 @@ namespace Netcore.Notification.Controllers
                 try
                 {
                     string first = list.FirstOrDefault();
-                    list.Clear();
-                    list.Add(connection);
+                    //list.Clear();
+                    if (!list.Contains(connection))
+                    {
+                        list.Add(connection);
+                    }
                     return first;
                 }
                 finally

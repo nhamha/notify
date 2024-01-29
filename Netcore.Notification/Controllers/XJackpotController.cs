@@ -44,6 +44,10 @@ namespace Netcore.Notification.Controllers
             var gameIDs = _settings.EventGameIDs.Split(',');
             for (var i = 0; i < lstUrl.Length; i++)
             {
+                if (string.IsNullOrEmpty(lstUrl[i]))
+                {
+                    continue;
+                }
                 var eventInfo = await _dataService.GetAsync<XJackpotInfo>(lstUrl[i], false);
                 if (eventInfo == null)
                 {
